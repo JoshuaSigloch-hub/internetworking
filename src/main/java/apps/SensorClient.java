@@ -49,21 +49,14 @@ public class SensorClient {
         PhyProtocol phy = new PhyProtocol(CLIENT_PORT);
 
         // --- 2. Setup SP protocol ---
-        SPProtocol sp;
-        try {
-            sp = new SPProtocol(CLIENT_PORT, phy);
-        } catch (IWProtocolException e) {
-            System.err.println("[SensorClient] Failed to initialize SPProtocol: " + e.getMessage());
-            return;
-        }
+        SPProtocol sp = new SPProtocol(phy);
 
         // --- 3. Build destination config ---
         SPConfiguration serverConfig;
         try {
             serverConfig = new SPConfiguration(
                 InetAddress.getByName(SERVER_HOST),
-                SERVER_PORT,
-                phy
+                SERVER_PORT
             );
         } catch (UnknownHostException e) {
             System.err.println("[SensorClient] Unknown host: " + SERVER_HOST);
@@ -80,7 +73,7 @@ public class SensorClient {
                 System.out.println("[SensorClient] Sending: " + measurement);
 
                 // b) Send to server
-                sp.send(measurement, serverConfig);
+                sp.send(measurement.getData(), serverConfig);
 
                 // c) Wait for ACK
                 Msg response = sp.receive();
