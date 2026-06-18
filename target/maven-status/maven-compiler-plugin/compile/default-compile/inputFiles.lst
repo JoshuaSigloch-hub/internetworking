@@ -24,3 +24,6 @@
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/slp/SLPRegMsg.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/slp/SLPRegRequestMsg.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/slp/SLPRegResponseMsg.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/AckMessage.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/MeasurementMessage.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/SPMsg.java

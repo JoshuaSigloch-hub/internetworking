@@ -4,11 +4,14 @@ core/Protocol$proto_id.class
 exceptions/CookieTimeoutException.class
 phy/PhyMsg.class
 phy/PhyMsg$1.class
+sp/AckMessage.class
+sp/MeasurementMessage.class
 slp/SLPProtocol.class
 apps/SimplexPhyClient.class
 exceptions/NoNextStateException.class
 exceptions/IllegalCommandException.class
 exceptions/IllegalMsgException.class
+sp/SPMsg.class
 core/Msg.class
 exceptions/BadChecksumException.class
 core/Protocol.class
