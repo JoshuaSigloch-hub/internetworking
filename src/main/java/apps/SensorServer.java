@@ -10,87 +10,63 @@ import sp.MeasurementMessage;
 import sp.AckMessage;
 import exceptions.IWProtocolException;
 
-/**
- * SensorServer (Data Processing Station)
- *
- * Waits for incoming MeasurementMessages from arbitrary many sensors,
- * prints the data to screen, and sends an ACK back to the correct sender.
- *
- * Lifecycle:
- *   1. Initialize PhyProtocol + SPProtocol
- *   2. Loop forever:
- *        a. Wait for incoming message
- *        b. If MeasurementMessage: print data, send ACK back
- *        c. If unknown type: log warning, ignore
- */
 public class SensorServer {
 
-    // ---------------------------------------------------------------
-    // Configuration
-    // ---------------------------------------------------------------
-    public static final int SERVER_PORT = 6000; // must match SensorClient.SERVER_PORT
+    public static final int SERVER_PORT = 6000;
 
     public static void main(String[] args) {
 
-        // --- 1. Setup PHY layer ---
+        // 1. PHY initialisieren
         PhyProtocol phy = new PhyProtocol(SERVER_PORT);
 
-        // --- 2. Setup SP protocol ---
+        // 2. SP Protokoll initialisieren
         SPProtocol sp = new SPProtocol(phy);
 
-        System.out.println("[SensorServer] Listening on port " + SERVER_PORT + " ...");
+        System.out.println("[SensorServer] Lauscht auf Port " + SERVER_PORT + " ...");
 
-        // --- 3. Main receive loop ---
+        // 3. Empfangs-Loop
         while (true) {
             try {
-                // a) Block until a message arrives
+                // a) Auf Nachricht warten
                 Msg incoming = sp.receive();
 
-                if (incoming instanceof MeasurementMessage) {
-                    MeasurementMessage measurement = (MeasurementMessage) incoming;
+                if (incoming instanceof MeasurementMessage measurement) {
 
-                    // b) Print measurement data to screen (required by task)
+                    // b) Messdaten ausgeben
                     printMeasurement(measurement);
 
-                    // c) ACK zurück zum richtigen Sender
+                    // c) ACK an den richtigen Sender zurückschicken
                     SPConfiguration senderConfig = sp.getSenderConfig();
-                    // Konstruktor: (sensorId, sequenceNumber, success)
                     AckMessage ack = new AckMessage(
                         measurement.getSensorId(),
                         measurement.getSequenceNumber(),
                         true
                     );
-                    sp.send(ack.getData(), senderConfig);
+                    sp.send(ack, senderConfig);
 
-                    System.out.println("[SensorServer] ACK sent to " + senderConfig);
+                    System.out.println("[SensorServer] ACK gesendet an " + senderConfig.getRemoteAddress()
+                        + ":" + senderConfig.getRemotePort());
 
                 } else {
-                    // Unknown message type — log and continue
-                    System.err.println("[SensorServer] Unknown message type received: "
-                        + incoming.getClass().getSimpleName() + " — ignoring.");
+                    System.err.println("[SensorServer] Unbekannter Nachrichtentyp - ignoriert.");
                 }
 
             } catch (IWProtocolException e) {
-                System.err.println("[SensorServer] Protocol error: " + e.getMessage());
-                // keep running — server must stay up for all sensors
+                System.err.println("[SensorServer] Protokollfehler: " + e.getMessage());
             } catch (IOException e) {
-                System.err.println("[SensorServer] IO error: " + e.getMessage());
+                System.err.println("[SensorServer] IO-Fehler: " + e.getMessage());
             }
         }
     }
 
-    /**
-     * Prints measurement data to screen in a readable format.
-     * Called after each successfully received MeasurementMessage.
-     */
     private static void printMeasurement(MeasurementMessage m) {
         System.out.println("========================================");
-        System.out.println("[SensorServer] Measurement received:");
+        System.out.println("[SensorServer] Messung empfangen:");
         System.out.println("  Sensor ID   : " + m.getSensorId());
-        System.out.println("  Sequence Nr : " + m.getSequenceNumber());
+        System.out.println("  Sequenz Nr  : " + m.getSequenceNumber());
         System.out.println("  pH          : " + m.getPhValue());
-        System.out.println("  Temperature : " + m.getTemperature() + " °C");
-        System.out.println("  Oxygen      : " + m.getOxygenValue() + " mg/L");
+        System.out.println("  Temperatur  : " + m.getTemperature() + " °C");
+        System.out.println("  Sauerstoff  : " + m.getOxygenValue() + " mg/L");
         System.out.println("========================================");
     }
 }
