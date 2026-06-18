@@ -102,4 +102,80 @@ class SPProtocolTest {
 
         assertNull(result);
     }
+    @Test
+    void sendAckMessageForwardsDataToPhyProtocol() throws Exception {
+        PhyProtocol phy = mock(PhyProtocol.class);
+        SPProtocol sp = new SPProtocol(phy);
+
+        SPConfiguration config = new SPConfiguration(
+                InetAddress.getByName("localhost"),
+                9999
+        );
+
+        AckMessage ack = new AckMessage(1, 10, true);
+
+        sp.send(ack, config);
+
+        verify(phy).send(eq(ack.getData()), any(PhyConfiguration.class));
+    }
+
+    @Test
+    void sendUsesSpProtocolId() throws Exception {
+        PhyProtocol phy = mock(PhyProtocol.class);
+        SPProtocol sp = new SPProtocol(phy);
+
+        SPConfiguration config = new SPConfiguration(
+                InetAddress.getByName("localhost"),
+                9999
+        );
+
+        MeasurementMessage message = new MeasurementMessage(1, 10, 20.5, 7.2, 8.9);
+
+        sp.send(message, config);
+
+        verify(phy).send(eq(message.getData()), argThat(phyConfig ->
+                phyConfig instanceof PhyConfiguration
+                        && ((PhyConfiguration) phyConfig).getPid() == Protocol.proto_id.SP
+        ));
+    }
+
+    @Test
+    void receiveUnknownSpMessageReturnsNull() throws Exception {
+        PhyProtocol phy = mock(PhyProtocol.class);
+        SPProtocol sp = new SPProtocol(phy);
+
+        MeasurementMessage incoming = new MeasurementMessage(1, 10, 20.5, 7.2, 8.9);
+        incoming.setData("sp UNKNOWN;1;10;12345");
+        incoming.setConfiguration(new PhyConfiguration(
+                InetAddress.getByName("localhost"),
+                12345,
+                Protocol.proto_id.SP
+        ));
+
+        when(phy.receive()).thenReturn(incoming);
+
+        Msg result = sp.receive();
+
+        assertNull(result);
+    }
+
+    @Test
+    void receiveStoresSenderConfig() throws Exception {
+        PhyProtocol phy = mock(PhyProtocol.class);
+        SPProtocol sp = new SPProtocol(phy);
+
+        AckMessage incoming = new AckMessage(7, 99, true);
+        incoming.setConfiguration(new PhyConfiguration(
+                InetAddress.getByName("localhost"),
+                54321,
+                Protocol.proto_id.SP
+        ));
+
+        when(phy.receive()).thenReturn(incoming);
+
+        sp.receive();
+
+        assertNotNull(sp.getSenderConfig());
+        assertEquals(54321, sp.getSenderConfig().getRemotePort());
+    }
 }

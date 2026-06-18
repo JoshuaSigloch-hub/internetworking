@@ -50,4 +50,41 @@ class MeasurementMessageTest {
             new MeasurementMessage().parse(manipulated);
         });
     }
+
+    @Test
+    @DisplayName("Unvollständige MeasurementMessage löst Exception aus")
+    void incompleteMeasurementMessageThrowsExceptionTest() {
+        assertThrows(IllegalMsgException.class, () -> {
+            new MeasurementMessage().parse("sp DATA;1;2;3");
+        });
+    }
+
+    @Test
+    @DisplayName("Ungültiger Nachrichtentyp löst Exception aus")
+    void wrongTypeThrowsExceptionTest() {
+        assertThrows(IllegalMsgException.class, () -> {
+            new MeasurementMessage().parse("sp ACK;1;2;true;123");
+        });
+    }
+
+    @Test
+    @DisplayName("Verschiedene Messwerte werden korrekt gespeichert")
+    void differentValuesStoredCorrectlyTest() {
+        MeasurementMessage message = new MeasurementMessage(99, 123, 25.5, 6.9, 11.2);
+
+        assertEquals(99, message.getSensorId());
+        assertEquals(123, message.getSequenceNumber());
+        assertEquals(25.5, message.getTemperature());
+        assertEquals(6.9, message.getPhValue());
+        assertEquals(11.2, message.getOxygenValue());
+    }
+
+    @Test
+    @DisplayName("CRC bleibt bei identischer Nachricht gleich")
+    void crcIsDeterministicTest() {
+        MeasurementMessage msg1 = new MeasurementMessage(1, 1, 20.0, 7.0, 8.0);
+        MeasurementMessage msg2 = new MeasurementMessage(1, 1, 20.0, 7.0, 8.0);
+
+        assertEquals(msg1.getCrc(), msg2.getCrc());
+    }
 }
