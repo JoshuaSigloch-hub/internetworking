@@ -1,3 +1,5 @@
 phy/PhyMsgTest.class
+sp/MeasurementMessageTest.class
+sp/AckMessageTest.class
 slp/SLPRegMsgTest.class
 phy/SLPClientRegisterTask2Test.class
