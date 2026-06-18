@@ -58,7 +58,16 @@ public class SPProtocol implements Protocol {
             return null;
         }
 
-        SPMsg msg = new MeasurementMessage();
-        return msg.parse(in.getData());
+        String data = in.getData();
+
+        if (data.startsWith(MeasurementMessage.TYPE)) {
+            return new MeasurementMessage().parse(data);
+        }
+
+        if (data.startsWith(AckMessage.TYPE)) {
+            return new AckMessage().parse(data);
+        }
+
+        return null;
     }
 }
