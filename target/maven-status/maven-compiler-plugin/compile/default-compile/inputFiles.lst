@@ -1,5 +1,7 @@
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/apps/SLPClient.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/apps/SLPSwitch.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/apps/SensorClient.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/apps/SensorServer.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/apps/SimplexPhyClient.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/apps/SimplexPhyServer.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/core/Configuration.java
@@ -26,4 +28,6 @@
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/slp/SLPRegResponseMsg.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/AckMessage.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/MeasurementMessage.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/SPConfiguration.java
 /Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/SPMsg.java
+/Users/joshua/Documents/internetworking/internetworking/src/main/java/sp/SPProtocol.java

@@ -36,13 +36,7 @@ public class SensorServer {
         PhyProtocol phy = new PhyProtocol(SERVER_PORT);
 
         // --- 2. Setup SP protocol ---
-        SPProtocol sp;
-        try {
-            sp = new SPProtocol(SERVER_PORT, phy);
-        } catch (IWProtocolException e) {
-            System.err.println("[SensorServer] Failed to initialize SPProtocol: " + e.getMessage());
-            return;
-        }
+        SPProtocol sp = new SPProtocol(phy);
 
         System.out.println("[SensorServer] Listening on port " + SERVER_PORT + " ...");
 
@@ -66,7 +60,7 @@ public class SensorServer {
                         measurement.getSequenceNumber(),
                         true
                     );
-                    sp.send(ack, senderConfig);
+                    sp.send(ack.getData(), senderConfig);
 
                     System.out.println("[SensorServer] ACK sent to " + senderConfig);
 

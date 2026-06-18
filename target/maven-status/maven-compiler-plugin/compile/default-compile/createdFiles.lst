@@ -9,6 +9,7 @@ sp/MeasurementMessage.class
 slp/SLPProtocol.class
 apps/SimplexPhyClient.class
 exceptions/NoNextStateException.class
+sp/SPConfiguration.class
 exceptions/IllegalCommandException.class
 exceptions/IllegalMsgException.class
 sp/SPMsg.class
@@ -17,7 +18,9 @@ exceptions/BadChecksumException.class
 core/Protocol.class
 exceptions/IllegalAddrException.class
 phy/PhyProtocol.class
+apps/SensorClient.class
 exceptions/IWProtocolException.class
+apps/SensorServer.class
 exceptions/CookieRequestException.class
 apps/SLPSwitch.class
 core/Configuration.class
@@ -27,5 +30,6 @@ slp/SLPRegResponseMsg.class
 phy/PhyConfiguration.class
 slp/SLPRegMsg.class
 slp/SLPRegRequestMsg.class
+sp/SPProtocol.class
 exceptions/RegistrationFailedException.class
 phy/PhyPingMsg.class
