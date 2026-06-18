@@ -35,6 +35,11 @@ public class SPProtocol implements Protocol {
         ));
     }
 
+    public void send(SPMsg message, SPConfiguration config)
+            throws IOException, IWProtocolException {
+        send(message.getData(), config);
+    }
+
     @Override
     public Msg receive()
             throws IOException, IWProtocolException {
