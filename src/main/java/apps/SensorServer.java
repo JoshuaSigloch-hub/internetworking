@@ -16,26 +16,20 @@ public class SensorServer {
 
     public static void main(String[] args) {
 
-        // 1. PHY initialisieren
         PhyProtocol phy = new PhyProtocol(SERVER_PORT);
 
-        // 2. SP Protokoll initialisieren
         SPProtocol sp = new SPProtocol(phy);
 
         System.out.println("[SensorServer] Lauscht auf Port " + SERVER_PORT + " ...");
 
-        // 3. Empfangs-Loop
         while (true) {
             try {
-                // a) Auf Nachricht warten
                 Msg incoming = sp.receive();
 
                 if (incoming instanceof MeasurementMessage measurement) {
 
-                    // b) Messdaten ausgeben
                     printMeasurement(measurement);
 
-                    // c) ACK an den richtigen Sender zurückschicken
                     SPConfiguration senderConfig = sp.getSenderConfig();
                     AckMessage ack = new AckMessage(
                         measurement.getSensorId(),

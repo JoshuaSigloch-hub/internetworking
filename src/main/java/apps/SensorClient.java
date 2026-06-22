@@ -27,13 +27,10 @@ public class SensorClient {
 
     public static void main(String[] args) {
 
-        // 1. PHY initialisieren
         PhyProtocol phy = new PhyProtocol(CLIENT_PORT);
 
-        // 2. SP Protokoll initialisieren
         SPProtocol sp = new SPProtocol(phy);
 
-        // 3. Server-Konfiguration
         SPConfiguration serverConfig;
         try {
             serverConfig = new SPConfiguration(
@@ -47,10 +44,8 @@ public class SensorClient {
 
         System.out.println("[SensorClient] Gestartet. Sende an " + SERVER_HOST + ":" + SERVER_PORT);
 
-        // 4. Send-Loop
         while (true) {
             try {
-                // a) Messung erstellen
                 MeasurementMessage measurement = new MeasurementMessage(
                     CLIENT_PORT,
                     sequenceNumber++,
@@ -61,10 +56,8 @@ public class SensorClient {
 
                 System.out.println("[SensorClient] Sende Messung #" + measurement.getSequenceNumber());
 
-                // b) Senden
                 sp.send(measurement, serverConfig);
 
-                // c) Auf ACK warten
                 Msg response = sp.receive();
                 if (response instanceof AckMessage ack) {
                     System.out.println("[SensorClient] ACK erhalten (seq="
@@ -73,7 +66,6 @@ public class SensorClient {
                     System.err.println("[SensorClient] Unerwarteter Nachrichtentyp empfangen.");
                 }
 
-                // d) Warten bis zur nächsten Messung
                 Thread.sleep(SEND_INTERVAL_MS);
 
             } catch (IWProtocolException e) {

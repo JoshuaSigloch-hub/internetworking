@@ -3,10 +3,6 @@ package sp;
 import core.Configuration;
 import java.net.InetAddress;
 
-/**
- * Configuration for the Sensor Protocol.
- * Stores the destination address and port for sending SP messages.
- */
 public class SPConfiguration extends Configuration {
     private InetAddress remoteAddress;
     private int remotePort;

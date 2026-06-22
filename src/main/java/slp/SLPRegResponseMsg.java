@@ -9,7 +9,6 @@ import exceptions.IllegalMsgException;
  *  -> [error message]
 */
 
-
 public class SLPRegResponseMsg extends SLPRegMsg {
 	protected static final String SLP_REG_RES_HEADER = "resp ";
 	protected static final String SLP_REG_SUCCESS = "ACK";
