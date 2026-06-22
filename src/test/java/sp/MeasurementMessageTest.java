@@ -17,7 +17,7 @@ class MeasurementMessageTest {
         assertEquals(10, message.getSequenceNumber());
         assertEquals(18.5, message.getTemperature());
         assertEquals(7.2, message.getPhValue());
-        assertEquals(8.9, message.getOxygenValue());
+        assertEquals(8.9, message.getSaltValue());
 
         assertNotNull(message.getData());
         assertNotNull(message.getDataBytes());
@@ -35,7 +35,7 @@ class MeasurementMessageTest {
         assertEquals(original.getSequenceNumber(), parsed.getSequenceNumber());
         assertEquals(original.getTemperature(), parsed.getTemperature());
         assertEquals(original.getPhValue(), parsed.getPhValue());
-        assertEquals(original.getOxygenValue(), parsed.getOxygenValue());
+        assertEquals(original.getSaltValue(), parsed.getSaltValue());
         assertEquals(original.getCrc(), parsed.getCrc());
     }
 
@@ -76,7 +76,7 @@ class MeasurementMessageTest {
         assertEquals(123, message.getSequenceNumber());
         assertEquals(25.5, message.getTemperature());
         assertEquals(6.9, message.getPhValue());
-        assertEquals(11.2, message.getOxygenValue());
+        assertEquals(11.2, message.getSaltValue());
     }
 
     @Test

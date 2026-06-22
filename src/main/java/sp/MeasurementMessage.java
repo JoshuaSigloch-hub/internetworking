@@ -8,18 +8,18 @@ public class MeasurementMessage extends SPMsg {
 
     private double temperature;
     private double phValue;
-    private double oxygenValue;
+    private double saltValue;
 
     public MeasurementMessage() {
     }
 
     public MeasurementMessage(int sensorId, int sequenceNumber,
-                              double temperature, double phValue, double oxygenValue) {
+                              double temperature, double phValue, double saltValue) {
         this.sensorId = sensorId;
         this.sequenceNumber = sequenceNumber;
         this.temperature = temperature;
         this.phValue = phValue;
-        this.oxygenValue = oxygenValue;
+        this.saltValue = saltValue;
         buildMessage();
     }
 
@@ -29,7 +29,7 @@ public class MeasurementMessage extends SPMsg {
                 + SEPARATOR + sequenceNumber
                 + SEPARATOR + temperature
                 + SEPARATOR + phValue
-                + SEPARATOR + oxygenValue;
+                + SEPARATOR + saltValue;
 
         this.crc = calculateCrc(dataWithoutCrc);
 
@@ -65,7 +65,7 @@ public class MeasurementMessage extends SPMsg {
             this.sequenceNumber = Integer.parseInt(parts[2]);
             this.temperature = Double.parseDouble(parts[3]);
             this.phValue = Double.parseDouble(parts[4]);
-            this.oxygenValue = Double.parseDouble(parts[5]);
+            this.saltValue = Double.parseDouble(parts[5]);
             receivedCrc = Long.parseLong(parts[6]);
         } catch (NumberFormatException e) {
             throw new IllegalMsgException();
@@ -89,7 +89,7 @@ public class MeasurementMessage extends SPMsg {
         return phValue;
     }
 
-    public double getOxygenValue() {
-        return oxygenValue;
+    public double getSaltValue() {
+        return saltValue;
     }
 }

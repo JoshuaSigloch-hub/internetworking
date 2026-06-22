@@ -2,6 +2,7 @@ package sp;
 
 import core.Msg;
 import core.Protocol;
+import exceptions.IllegalMsgException;
 import org.junit.jupiter.api.Test;
 import phy.PhyConfiguration;
 import phy.PhyProtocol;
@@ -54,7 +55,7 @@ class SPProtocolTest {
         assertEquals(10, received.getSequenceNumber());
         assertEquals(20.5, received.getTemperature());
         assertEquals(7.2, received.getPhValue());
-        assertEquals(8.9, received.getOxygenValue());
+        assertEquals(8.9, received.getSaltValue());
 
         assertNotNull(sp.getSenderConfig());
         assertEquals(12345, sp.getSenderConfig().getRemotePort());
@@ -140,7 +141,7 @@ class SPProtocolTest {
     }
 
     @Test
-    void receiveUnknownSpMessageReturnsNull() throws Exception {
+    void receiveUnknownSpMessageThrowsException() throws Exception {
         PhyProtocol phy = mock(PhyProtocol.class);
         SPProtocol sp = new SPProtocol(phy);
 
@@ -154,9 +155,7 @@ class SPProtocolTest {
 
         when(phy.receive()).thenReturn(incoming);
 
-        Msg result = sp.receive();
-
-        assertNull(result);
+        assertThrows(IllegalMsgException.class, sp::receive);
     }
 
     @Test

@@ -60,7 +60,7 @@ public class SensorServer {
         System.out.println("  Sequenz Nr  : " + m.getSequenceNumber());
         System.out.println("  pH          : " + m.getPhValue());
         System.out.println("  Temperatur  : " + m.getTemperature() + " °C");
-        System.out.println("  Sauerstoff  : " + m.getOxygenValue() + " mg/L");
+        System.out.println("  Salzgehalt  : " + m.getSaltValue());
         System.out.println("========================================");
     }
 }

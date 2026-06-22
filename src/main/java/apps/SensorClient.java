@@ -21,7 +21,7 @@ public class SensorClient {
 
     private static final double PH_MIN   = 6.5,  PH_MAX   = 8.5;
     private static final double TEMP_MIN = 5.0,  TEMP_MAX = 30.0;
-    private static final double O2_MIN   = 6.0,  O2_MAX   = 12.0;
+    private static final double SALT_MIN = 0.0,  SALT_MAX = 35.0;
 
     private static int sequenceNumber = 0;
 
@@ -51,7 +51,7 @@ public class SensorClient {
                     sequenceNumber++,
                     randomInRange(TEMP_MIN, TEMP_MAX),
                     randomInRange(PH_MIN,   PH_MAX),
-                    randomInRange(O2_MIN,   O2_MAX)
+                    randomInRange(SALT_MIN, SALT_MAX)
                 );
 
                 System.out.println("[SensorClient] Sende Messung #" + measurement.getSequenceNumber());

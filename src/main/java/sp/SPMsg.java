@@ -44,20 +44,24 @@ public abstract class SPMsg extends Msg {
         this.dataBytes = data.getBytes(StandardCharsets.UTF_8);
     }
 
-    @Override
-    protected Msg parse(String sentence) throws IWProtocolException {
+    public static SPMsg parseMessage(String sentence) throws IWProtocolException {
         if (sentence == null || !sentence.startsWith(SP_HEADER)) {
             throw new IllegalMsgException();
         }
 
         if (sentence.startsWith(MeasurementMessage.TYPE)) {
-            return new MeasurementMessage().parse(sentence);
+            return (SPMsg) new MeasurementMessage().parse(sentence);
         }
 
         if (sentence.startsWith(AckMessage.TYPE)) {
-            return new AckMessage().parse(sentence);
+            return (SPMsg) new AckMessage().parse(sentence);
         }
 
         throw new IllegalMsgException();
+    }
+
+    @Override
+    protected Msg parse(String sentence) throws IWProtocolException {
+        return parseMessage(sentence);
     }
 }
