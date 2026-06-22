@@ -20,7 +20,7 @@ public class SensorServer {
 
         SPProtocol sp = new SPProtocol(phy);
 
-        System.out.println("[SensorServer] Lauscht auf Port " + SERVER_PORT + " ...");
+        System.out.println("[SensorServer] Wartet auf Port " + SERVER_PORT + " ...");
 
         while (true) {
             try {
